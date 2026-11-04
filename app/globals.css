@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: Arial, Helvetica, sans-serif;
+}
+
+body { background: #f6f8f9; color: #172b36; font-family: Arial, Helvetica, sans-serif; }
+button, input, textarea { font: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; }
+button:focus-visible, a:focus-visible { outline: 2px solid #0f766e; outline-offset: 4px; }
+.step { display: inline-flex; height: 32px; width: 32px; flex-shrink: 0; align-items: center; justify-content: center; border-radius: 9px; background: #f0fdfa; color: #115e59; font-size: 11px; font-weight: 600; }
+.primary-button { display: flex; width: 100%; min-height: 48px; align-items: center; justify-content: center; gap: 12px; border-radius: 10px; background: #115e59; color: white; font-size: 14px; font-weight: 600; transition: background 150ms; }
+.primary-button:hover { background: #134e4a; }
+.primary-button:disabled { background: #dce4e6; color: #52636c; }
+.spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 2s !important; transition: none !important; } }
