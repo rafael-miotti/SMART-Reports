@@ -48,7 +48,7 @@ export default function Home() {
     if (next && (!IMAGE_TYPES.includes(next.type) || next.size > MAX_IMAGE_BYTES || !next.size)) {
       setFile(null);
       if (inputRef.current) inputRef.current.value = "";
-      setError("Selecione uma imagem JPG, PNG ou WEBP de até 5 MB.");
+      setError("Selecione uma imagem JPG, PNG ou WEBP de até 4 MB.");
       return;
     }
     setFile(next);
@@ -116,7 +116,7 @@ export default function Home() {
                   </> : <>
                     <span className="mb-4 rounded-xl border border-slate-200 bg-white p-3 text-teal-800"><Icon name="upload" /></span>
                     <span className="text-sm font-semibold text-slate-700">Clique para selecionar uma imagem</span>
-                    <span id="image-help" className="mt-2 text-xs text-slate-500">JPG, PNG ou WEBP · Até 5 MB</span>
+                    <span id="image-help" className="mt-2 text-xs text-slate-500">JPG, PNG ou WEBP · Até 4 MB</span>
                   </>}
                 </label>
               </div>

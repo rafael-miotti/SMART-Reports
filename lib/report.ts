@@ -1,4 +1,4 @@
-export const MAX_IMAGE_BYTES = 5 * 1024 * 1024;
+export const MAX_IMAGE_BYTES = 4 * 1024 * 1024;
 export const MAX_DESCRIPTION_LENGTH = 2000;
 export const IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 export const CIVIL_DEFENSE_NOTICE = "Este relatório não substitui orientações da Defesa Civil.";

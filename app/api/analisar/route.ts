@@ -3,6 +3,7 @@ import { analyzeImage } from "@/lib/gemini";
 import { IMAGE_TYPES, MAX_DESCRIPTION_LENGTH, MAX_IMAGE_BYTES, matchesImageSignature } from "@/lib/report";
 
 export const runtime = "nodejs";
+export const maxDuration = 90;
 
 function failure(error: string, status: number) {
   return NextResponse.json({ error }, { status, headers: { "Cache-Control": "no-store" } });
@@ -12,7 +13,7 @@ export async function POST(request: Request) {
   // Bound the entire multipart body, including requests without Content-Length.
   const bodyLimit = MAX_IMAGE_BYTES + 64 * 1024;
   if (Number(request.headers.get("content-length")) > bodyLimit) {
-    return failure("A imagem deve ter no máximo 5 MB.", 413);
+    return failure("A imagem deve ter no máximo 4 MB.", 413);
   }
   if (!request.headers.get("content-type")?.startsWith("multipart/form-data")) {
     return failure("Envie a imagem como formulário multipart.", 400);
@@ -29,7 +30,7 @@ export async function POST(request: Request) {
       size += value.byteLength;
       if (size > bodyLimit) {
         await reader.cancel();
-        return failure("A imagem deve ter no máximo 5 MB.", 413);
+        return failure("A imagem deve ter no máximo 4 MB.", 413);
       }
       chunks.push(value);
     }
@@ -43,7 +44,7 @@ export async function POST(request: Request) {
   const description = form.get("description") ?? "";
   if (!(image instanceof File) || !image.size) return failure("Selecione uma imagem para analisar.", 400);
   if (!IMAGE_TYPES.includes(image.type)) return failure("Use uma imagem JPG, PNG ou WEBP.", 415);
-  if (image.size > MAX_IMAGE_BYTES) return failure("A imagem deve ter no máximo 5 MB.", 413);
+  if (image.size > MAX_IMAGE_BYTES) return failure("A imagem deve ter no máximo 4 MB.", 413);
   if (typeof description !== "string" || description.length > MAX_DESCRIPTION_LENGTH) {
     return failure("A descrição deve ter no máximo 2.000 caracteres.", 400);
   }

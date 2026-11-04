@@ -23,7 +23,7 @@ Não use o prefixo `NEXT_PUBLIC_`. A chave é lida exclusivamente de `GEMINI_API
 npm run dev
 ```
 
-Acesse [http://localhost:3000](http://localhost:3000). Selecione uma imagem JPG, PNG ou WEBP de até 5 MB, preencha a descrição se desejar (até 2.000 caracteres) e clique em **Analisar ocorrência**. Após o resultado, **Realizar outra análise** limpa o formulário e o relatório. Em caso de erro, o formulário é preservado para tentar novamente.
+Acesse [http://localhost:3000](http://localhost:3000). Selecione uma imagem JPG, PNG ou WEBP de até 4 MB, preencha a descrição se desejar (até 2.000 caracteres) e clique em **Analisar ocorrência**. Após o resultado, **Realizar outra análise** limpa o formulário e o relatório. Em caso de erro, o formulário é preservado para tentar novamente.
 
 ## Verificação e produção local
 
@@ -37,6 +37,12 @@ npm start
 O build não exige a chave. Uma análise real exige chave válida, acesso à internet, permissões e cota no Gemini; sem isso, a aplicação exibe um erro, sem gerar relatórios fictícios.
 
 ## Integração e limites
+
+### Publicação na Vercel
+
+Use o preset Next.js e Node.js 22.x. O build é `npm run build` e a instalação deve usar `npm ci`. Configure `GEMINI_API_KEY` como variável sensível do ambiente **Production**, apenas no servidor, antes de publicar. O arquivo `.env.local` não deve ser enviado nem versionado.
+
+O limite de imagem é de 4 MB para manter a requisição multipart abaixo do [limite de 4,5 MB das Vercel Functions](https://vercel.com/docs/functions/limitations#request-body-size). O Route Handler tem duração máxima configurada em 90 segundos; a chamada ao Gemini mantém o timeout de 60 segundos.
 
 - `app/api/analisar/route.ts`: Route Handler `POST`, validação de tamanho, MIME, assinatura do arquivo e descrição; respostas sem cache. A assinatura não substitui uma decodificação completa: arquivos corrompidos também podem ser rejeitados na pré-visualização ou pelo Gemini.
 - `lib/gemini.ts`: SDK oficial `@google/genai`, método `models.generateContent`, imagem em `inlineData` e descrição em uma única solicitação. Saída JSON estruturada e validada antes da exibição.
